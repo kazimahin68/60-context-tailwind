@@ -1,10 +1,36 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../Provider/AuthProvider';
 
 const Login = () => {
+
+    const {user, loggedIn, error, setError, success, setSuccess} = useContext(AuthContext);
+
+    const handleLoggedIn = e =>{
+        setError('');
+        setSuccess('');
+        e.preventDefault();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+        console.log(email, password)
+
+
+        loggedIn(email, password)
+        .then(() => {
+            console.log('Sign In SuccessFully');
+            setSuccess('You are successfully logged In')
+            form.reset();
+        })
+        .catch(error =>{
+            setError(error.message);
+        })
+    }
+
+
     return (
         <div>
-            <div className="hero min-h-screen bg-base-200">
+            <form onSubmit={handleLoggedIn} className="hero min-h-screen bg-base-200">
                 <div className="hero-content flex-col">
                     <div className="text-center lg:text-left">
                         <h1 className="text-5xl font-bold">Login now!</h1>
@@ -15,13 +41,13 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="email" placeholder="Your Email" className="input input-bordered" />
+                                <input name='email' type="email" placeholder="Your Email" className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" placeholder="Password" className="input input-bordered" />
+                                <input name='password' type="password" placeholder="Password" className="input input-bordered" />
                                 <label className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
                                 </label>
@@ -29,10 +55,12 @@ const Login = () => {
                             <div className="form-control mt-6">
                                 <button className="btn btn-primary">Login</button>
                             </div>
+                            <p className='text-red-500'>{error}</p>
+                            <p className=' text-emerald-500'>{success}</p>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };

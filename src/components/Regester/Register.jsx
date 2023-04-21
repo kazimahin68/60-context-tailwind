@@ -6,14 +6,16 @@ import { AuthContext } from '../Provider/AuthProvider';
 
 const Register = () => {
 
-    const {user, createUser, updateName, setError, error} = useContext(AuthContext);
+    const {user, createUser, updateName, setError, error, setSuccess, success} = useContext(AuthContext);
     const handleRegister = e => {
+        setError('');
+        setSuccess('');
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name, email, password);
+        // console.log(name, email, password);
 
 
         // Validation
@@ -27,11 +29,13 @@ const Register = () => {
         createUser(email, password)
             .then(result => {
                 const registeredUser = result.user;
-                console.log(registeredUser);
+                // console.log(registeredUser);
+                setSuccess('You are successfully registered')
                 e.target.reset()
             })
             .catch(error => {
-                console.log(error)
+                setError(error.message);
+                e.target.reset();
             });
 
         // updateName(name)
@@ -67,11 +71,12 @@ const Register = () => {
                                 <span className="label-text">Password</span>
                             </label>
                             <input name='password' type="password" placeholder="Choose Your Password" className="input input-bordered" required />
-                            <p>{error}</p>
+                            <p className='text-red-500'>{error}</p>
                         </div>
                         <div className="form-control mt-6">
                             <button className="btn btn-primary">Register</button>
                         </div>
+                        <p className='text-emerald-500'>{success}</p>
                     </div>
                 </div>
             </div>
