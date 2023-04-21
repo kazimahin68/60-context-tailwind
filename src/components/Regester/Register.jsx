@@ -1,12 +1,14 @@
 /* eslint-disable no-const-assign */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Register = () => {
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
-    const {user, createUser, updateName, setError, error, setSuccess, success} = useContext(AuthContext);
+    const {user, createUser, updateName} = useContext(AuthContext);
     const handleRegister = e => {
         setError('');
         setSuccess('');

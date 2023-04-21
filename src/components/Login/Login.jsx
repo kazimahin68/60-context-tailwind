@@ -1,10 +1,13 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
 
 const Login = () => {
 
-    const {user, loggedIn, error, setError, success, setSuccess} = useContext(AuthContext);
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    const {user, loggedIn} = useContext(AuthContext);
 
     const handleLoggedIn = e =>{
         setError('');
